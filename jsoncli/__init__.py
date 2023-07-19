@@ -12,20 +12,6 @@ def get_value(obj, key_path):
             return None
     return obj
 
-def set_value(obj, key_path, value, data_type=None):
-    keys = key_path.split('.') if '.' in key_path else key_path.split('/')
-    current = obj
-    for key in keys[:-1]:
-        if key.isdigit():
-            key = int(key)
-        if key not in current:
-            current[key] = {} if keys[keys.index(key) + 1].isdigit() else {}
-        current = current[key]
-    last_key = keys[-1]
-    if last_key.isdigit():
-        last_key = int(last_key)
-    current[last_key] = value
-
 def add_value(obj, key_path, value, data_type=None):
     keys = key_path.split('.') if '.' in key_path else key_path.split('/')
     current = obj
