@@ -98,7 +98,7 @@ def main():
     parser.add_argument("file", help="Path to the JSON file")
     parser.add_argument("key_path", nargs="?", help="Dot or slash separated key path for get, set, and add commands")
     parser.add_argument("value", nargs="?", help="Value for set and add commands")
-    parser.add_argument("--type", choices=["string", "integer", "float", "boolean", "null", "object"], help="Specify the data type of the new value")
+    parser.add_argument("--type", choices=["string", "integer", "float", "boolean", "null", "object", "list"], help="Specify the data type of the new value")
     args = parser.parse_args()
 
     with open(args.file, "r") as f:
