@@ -45,15 +45,24 @@ def delete_value(obj, key_path):
     for key in keys[:-1]:
         if key.isdigit():
             key = int(key)
-        if key not in current:
+        if isinstance(current, list):
+            if key < 0 or key >= len(current):
+                raise ValueError(f"Index '{key}' is out of range.")
+        elif key not in current:
             raise ValueError(f"Key '{key}' does not exist.")
         current = current[key]
     last_key = keys[-1]
     if last_key.isdigit():
         last_key = int(last_key)
-    if last_key not in current:
+    if isinstance(current, list):
+        if last_key < 0 or last_key >= len(current):
+            raise ValueError(f"Index '{last_key}' is out of range.")
+    elif last_key not in current:
         raise ValueError(f"Key '{last_key}' does not exist.")
-    del current[last_key]
+    if isinstance(current, list):
+        current.pop(last_key)
+    else:
+        del current[last_key]
 
 def validate_json(json_str):
     try:
