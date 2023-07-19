@@ -99,6 +99,13 @@ def delete_value(data, keys):
             return False
     return False
 
+def validate_json(data):
+    try:
+        json.dumps(data)
+    except ValueError:
+        return False
+    return True
+
 def main():
     parser = argparse.ArgumentParser(description="⚡ Manipulate JSON files through CLI ⚡")
     parser.add_argument("command", choices=["get", "set", "add", "delete"], help="Command to perform")
