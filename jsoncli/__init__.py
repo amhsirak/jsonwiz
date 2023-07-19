@@ -12,7 +12,7 @@ def get_value(obj, key_path):
             return None
     return obj
 
-def set_value(obj, key_path, value):
+def set_value(obj, key_path, value, data_type=None):
     keys = key_path.split('.') if '.' in key_path else key_path.split('/')
     current = obj
     for key in keys[:-1]:
