@@ -82,13 +82,13 @@ def main():
         print(value)
     elif args.command == "set":
         key_path = args.key_path
-        value = json.loads(args.value)
+        value = args.value  # No need to convert value to JSON here
         set_value(data, key_path, value)
         with open(args.file, "w") as f:
             json.dump(data, f, indent=2)
     elif args.command == "add":
         key_path = args.key_path
-        value = json.loads(args.value)
+        value = args.value  # No need to convert value to JSON here
         add_value(data, key_path, value)
         with open(args.file, "w") as f:
             json.dump(data, f, indent=2)
