@@ -1,164 +1,109 @@
 import argparse
 import json
-import os
 
-def get_value(data, keys):
+def get_value(obj, key_path):
+    keys = key_path.split('.') if '.' in key_path else key_path.split('/')
     for key in keys:
-        if isinstance(data, dict):
-            data = data.get(key)
-        elif isinstance(data, list):
-            try:
-                key = int(key)
-                data = data[key]
-            except (IndexError, ValueError):
-                data = None
-        else:
+        if key.isdigit():
+            key = int(key)
+        try:
+            obj = obj[key]
+        except (KeyError, IndexError):
             return None
-        if data is None:
-            break
-    return data
+    return obj
 
-def set_value(data, keys, value):
+def set_value(obj, key_path, value):
+    keys = key_path.split('.') if '.' in key_path else key_path.split('/')
+    current = obj
     for key in keys[:-1]:
-        if isinstance(data, dict):
-            data = data.setdefault(key, {})
-        elif isinstance(data, list):
-            try:
-                key = int(key)
-            except ValueError:
-                return False
-            if key >= len(data):
-                data.extend([{}] * (key - len(data) + 1))
-            data = data[key]
-        else:
-            return False
-    if isinstance(data, dict):
-        data[keys[-1]] = value
-    elif isinstance(data, list):
-        try:
-            keys[-1] = int(keys[-1])
-            data[keys[-1]] = value
-        except ValueError:
-            return False
-    else:
-        return False
-    return True
+        if key.isdigit():
+            key = int(key)
+        if key not in current:
+            current[key] = {} if keys[keys.index(key) + 1].isdigit() else {}
+        current = current[key]
+    last_key = keys[-1]
+    if last_key.isdigit():
+        last_key = int(last_key)
+    current[last_key] = value
 
-def add_value(data, keys, value):
+def add_value(obj, key_path, value):
+    keys = key_path.split('.') if '.' in key_path else key_path.split('/')
+    current = obj
     for key in keys[:-1]:
-        if isinstance(data, dict):
-            data = data.setdefault(key, {})
-        elif isinstance(data, list):
-            try:
-                key = int(key)
-            except ValueError:
-                return False
-            if key >= len(data):
-                data.extend([{}] * (key - len(data) + 1))
-            data = data[key]
-        else:
-            return False
-    if keys[-1] not in data:
-        if isinstance(data, dict):
-            data[keys[-1]] = value
-        elif isinstance(data, list):
-            try:
-                keys[-1] = int(keys[-1])
-                data[keys[-1]] = value
-            except ValueError:
-                return False
-        else:
-            return False
-        return True
-    return False
+        if key.isdigit():
+            key = int(key)
+        if key not in current:
+            current[key] = {} if keys[keys.index(key) + 1].isdigit() else {}
+        current = current[key]
+    last_key = keys[-1]
+    if last_key.isdigit():
+        last_key = int(last_key)
+    if last_key in current:
+        raise ValueError(f"Key '{last_key}' already exists.")
+    current[last_key] = value
 
-
-def delete_value(data, keys):
+def delete_value(obj, key_path):
+    keys = key_path.split('.') if '.' in key_path else key_path.split('/')
+    current = obj
     for key in keys[:-1]:
-        if isinstance(data, dict):
-            data = data.get(key)
-        elif isinstance(data, list):
-            try:
-                key = int(key)
-                data = data[key]
-            except (IndexError, ValueError):
-                return False
-        else:
-            return False
-        if data is None:
-            return False
-    if isinstance(data, dict):
-        return keys[-1] in data and data.pop(keys[-1], None) is not None
-    elif isinstance(data, list):
-        try:
-            keys[-1] = int(keys[-1])
-            if keys[-1] < len(data):
-                data.pop(keys[-1])
-                return True
-        except ValueError:
-            return False
-    return False
+        if key.isdigit():
+            key = int(key)
+        if key not in current:
+            raise ValueError(f"Key '{key}' does not exist.")
+        current = current[key]
+    last_key = keys[-1]
+    if last_key.isdigit():
+        last_key = int(last_key)
+    if last_key not in current:
+        raise ValueError(f"Key '{last_key}' does not exist.")
+    del current[last_key]
 
-def validate_json(data):
+def validate_json(json_str):
     try:
-        json.dumps(data)
+        json.loads(json_str)
+        return True
     except ValueError:
         return False
-    return True
-
+    
 def main():
-    parser = argparse.ArgumentParser(description="⚡ Manipulate JSON files through CLI ⚡")
-    parser.add_argument("command", choices=["get", "set", "add", "delete", "validate"], help="Command to perform")
-    parser.add_argument("file", help="JSON file to manipulate")
-    parser.add_argument("keys", nargs="*", help="Keys to target the value")
-    parser.add_argument("--value", help="Value to set or add")
+    parser = argparse.ArgumentParser(description="Command-line utility for manipulating JSON files.")
+    parser.add_argument("command", choices=["get", "set", "add", "delete", "validate"], help="Specify the command")
+    parser.add_argument("file", help="Path to the JSON file")
+    parser.add_argument("key_path", nargs="?", help="Dot or slash separated key path for get, set, and add commands")
+    parser.add_argument("value", nargs="?", help="Value for set and add commands")
     args = parser.parse_args()
 
-    if not os.path.exists(args.file):
-        print(f"File '{args.file}' not found.")
-        return
-
-    with open(args.file, "r") as json_file:
-        data = json.load(json_file)
+    with open(args.file, "r") as f:
+        data = json.load(f)
 
     if args.command == "get":
-        value = get_value(data, args.keys)
-        if value is not None:
-            print(value)
-        else:
-            print("Value not found")
+        key_path = args.key_path
+        value = get_value(data, key_path)
+        print(value)
     elif args.command == "set":
-        if args.value is None:
-            print("Please provide a value to set")
-        else:
-            if set_value(data, args.keys, args.value):
-                with open(args.file, "w") as json_file:
-                    json.dump(data, json_file, indent=4)
-                print("Value set successfully")
-            else:
-                print("Error setting value")
+        key_path = args.key_path
+        value = json.loads(args.value)
+        set_value(data, key_path, value)
+        with open(args.file, "w") as f:
+            json.dump(data, f, indent=2)
     elif args.command == "add":
-        if args.value is None:
-            print("Please provide a value to add")
-        else:
-            if add_value(data, args.keys, args.value):
-                with open(args.file, "w") as json_file:
-                    json.dump(data, json_file, indent=4)
-                print("Value added successfully")
-            else:
-                print("Error adding value")
+        key_path = args.key_path
+        value = json.loads(args.value)
+        add_value(data, key_path, value)
+        with open(args.file, "w") as f:
+            json.dump(data, f, indent=2)
     elif args.command == "delete":
-        if delete_value(data, args.keys):
-            with open(args.file, "w") as json_file:
-                json.dump(data, json_file, indent=4)
-            print("Value deleted successfully")
-        else:
-            print("Error deleting value")
+        key_path = args.key_path
+        delete_value(data, key_path)
+        with open(args.file, "w") as f:
+            json.dump(data, f, indent=2)
     elif args.command == "validate":
-        if validate_json(data):
-            print("JSON is valid")
+        with open(args.file, "r") as f:
+            json_str = f.read()
+        if validate_json(json_str):
+            print("Valid JSON.")
         else:
-            print("JSON is not valid")
-            
+            print("Invalid JSON.")
+     
 if __name__ == "__main__":
     main()
