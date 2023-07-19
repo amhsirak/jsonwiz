@@ -108,7 +108,7 @@ def validate_json(data):
 
 def main():
     parser = argparse.ArgumentParser(description="⚡ Manipulate JSON files through CLI ⚡")
-    parser.add_argument("command", choices=["get", "set", "add", "delete"], help="Command to perform")
+    parser.add_argument("command", choices=["get", "set", "add", "delete", "validate"], help="Command to perform")
     parser.add_argument("file", help="JSON file to manipulate")
     parser.add_argument("keys", nargs="*", help="Keys to target the value")
     parser.add_argument("--value", help="Value to set or add")
@@ -154,6 +154,11 @@ def main():
             print("Value deleted successfully")
         else:
             print("Error deleting value")
+    elif args.command == "validate":
+        if validate_json(data):
+            print("JSON is valid")
+        else:
+            print("JSON is not valid")
             
 if __name__ == "__main__":
     main()
