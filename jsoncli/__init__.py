@@ -85,6 +85,8 @@ def convert_to_data_type(value, data_type):
         return bool(value)
     elif data_type == "null":
         return None
+    elif data_type == "list":
+        return json.loads(value)
     elif data_type == "object":
         return json.loads(value)
     else:
