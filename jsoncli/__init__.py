@@ -12,7 +12,7 @@ def get_value(obj, key_path):
             return None
     return obj
 
-def add_value(obj, key_path, value, data_type=None):
+def set_value(obj, key_path, value, data_type=None):
     keys = key_path.split('.') if '.' in key_path else key_path.split('/')
     current = obj
     for key in keys[:-1]:
@@ -92,11 +92,11 @@ def main():
         key_path = args.key_path
         value = get_value(data, key_path)
         print(value)
-    elif args.command == "add":
+    elif args.command == "set":
         key_path = args.key_path
         value = args.value
         data_type = args.type
-        add_value(data, key_path, value, data_type)
+        set_value(data, key_path, value, data_type)
         with open(args.file, "w") as f:
             json.dump(data, f, indent=2)
     elif args.command == "delete":
