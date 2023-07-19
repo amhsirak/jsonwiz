@@ -3,6 +3,7 @@ import json
 
 __version__ = "0.0.1"
 
+
 def get_value(obj, key_path):
     keys = key_path.split('.') if '.' in key_path else key_path.split('/')
     for key in keys:
@@ -13,6 +14,7 @@ def get_value(obj, key_path):
         except (KeyError, IndexError):
             return None
     return obj
+
 
 def set_value(obj, key_path, value, data_type=None):
     keys = key_path.split('.') if '.' in key_path else key_path.split('/')
@@ -41,6 +43,7 @@ def set_value(obj, key_path, value, data_type=None):
     else:
         current[last_key] = convert_to_data_type(value, data_type)
 
+
 def delete_value(obj, key_path):
     keys = key_path.split('.') if '.' in key_path else key_path.split('/')
     current = obj
@@ -66,12 +69,14 @@ def delete_value(obj, key_path):
     else:
         del current[last_key]
 
+
 def validate_json(json_str):
     try:
         json.loads(json_str)
         return True
     except ValueError:
         return False
+
 
 def convert_to_data_type(value, data_type):
     if data_type == "string":
@@ -89,13 +94,19 @@ def convert_to_data_type(value, data_type):
     else:
         return value
 
+
 def main():
-    parser = argparse.ArgumentParser(description="⚡ JSONCLI - A command line interface for manipulating JSON files ⚡")
-    parser.add_argument("command", choices=["get", "set", "delete", "validate"], help="Specify the command to run")
+    parser = argparse.ArgumentParser(
+        description="⚡ JSONCLI - A command line interface for manipulating JSON files ⚡")
+    parser.add_argument("command", choices=[
+                        "get", "set", "delete", "validate"], help="Specify the command to run")
     parser.add_argument("file", help="Path to the JSON file")
-    parser.add_argument("key_path", nargs="?", help="Dot or slash separated key path for get, set, and add commands")
-    parser.add_argument("value", nargs="?", help="Value for set and add commands")
-    parser.add_argument("--type", choices=["string", "integer", "float", "boolean", "null", "object"], help="Specify the data type of the new value")
+    parser.add_argument("key_path", nargs="?",
+                        help="Dot or slash separated key path for get, set, and add commands")
+    parser.add_argument("value", nargs="?",
+                        help="Value for set and add commands")
+    parser.add_argument("--type", choices=["string", "integer", "float", "boolean",
+                        "null", "object"], help="Specify the data type of the new value")
     args = parser.parse_args()
 
     with open(args.file, "r") as f:
@@ -124,6 +135,7 @@ def main():
             print("Valid JSON.")
         else:
             print("Invalid JSON.")
+
 
 if __name__ == "__main__":
     main()
