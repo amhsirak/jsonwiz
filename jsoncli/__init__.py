@@ -1,6 +1,8 @@
 import argparse
 import json
 
+__version__ = "0.0.1"
+
 def get_value(obj, key_path):
     keys = key_path.split('.') if '.' in key_path else key_path.split('/')
     for key in keys:
