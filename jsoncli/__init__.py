@@ -25,6 +25,13 @@ def main():
     parser.add_argument("keys", nargs="*", help="Keys to target the value")
     parser.add_argument("--value", help="Value to set or add")
     args = parser.parse_args()
+
+    if not os.path.exists(args.file):
+        print(f"File '{args.file}' not found.")
+        return
+
+    with open(args.file, "r") as json_file:
+        data = json.load(json_file)
             
 if __name__ == "__main__":
     main()
