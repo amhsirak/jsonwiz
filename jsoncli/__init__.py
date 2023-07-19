@@ -32,6 +32,13 @@ def main():
 
     with open(args.file, "r") as json_file:
         data = json.load(json_file)
+
+    if args.command == "get":
+        value = get_value(data, args.keys)
+        if value is not None:
+            print(value)
+        else:
+            print("Value not found")
             
 if __name__ == "__main__":
     main()
