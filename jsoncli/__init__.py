@@ -72,6 +72,33 @@ def add_value(data, keys, value):
         return True
     return False
 
+
+def delete_value(data, keys):
+    for key in keys[:-1]:
+        if isinstance(data, dict):
+            data = data.get(key)
+        elif isinstance(data, list):
+            try:
+                key = int(key)
+                data = data[key]
+            except (IndexError, ValueError):
+                return False
+        else:
+            return False
+        if data is None:
+            return False
+    if isinstance(data, dict):
+        return keys[-1] in data and data.pop(keys[-1], None) is not None
+    elif isinstance(data, list):
+        try:
+            keys[-1] = int(keys[-1])
+            if keys[-1] < len(data):
+                data.pop(keys[-1])
+                return True
+        except ValueError:
+            return False
+    return False
+
 def main():
     parser = argparse.ArgumentParser(description="⚡ Manipulate JSON files through CLI ⚡")
     parser.add_argument("command", choices=["get", "set", "add"], help="Command to perform")
