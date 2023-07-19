@@ -92,12 +92,6 @@ def main():
         key_path = args.key_path
         value = get_value(data, key_path)
         print(value)
-    elif args.command == "set":
-        key_path = args.key_path
-        value = args.value
-        set_value(data, key_path, value)
-        with open(args.file, "w") as f:
-            json.dump(data, f, indent=2)
     elif args.command == "add":
         key_path = args.key_path
         value = args.value
