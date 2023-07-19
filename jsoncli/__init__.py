@@ -140,6 +140,13 @@ def main():
                 print("Value added successfully")
             else:
                 print("Error adding value")
+    elif args.command == "delete":
+        if delete_value(data, args.keys):
+            with open(args.file, "w") as json_file:
+                json.dump(data, json_file, indent=4)
+            print("Value deleted successfully")
+        else:
+            print("Error deleting value")
             
 if __name__ == "__main__":
     main()
