@@ -101,7 +101,7 @@ def delete_value(data, keys):
 
 def main():
     parser = argparse.ArgumentParser(description="⚡ Manipulate JSON files through CLI ⚡")
-    parser.add_argument("command", choices=["get", "set", "add"], help="Command to perform")
+    parser.add_argument("command", choices=["get", "set", "add", "delete"], help="Command to perform")
     parser.add_argument("file", help="JSON file to manipulate")
     parser.add_argument("keys", nargs="*", help="Keys to target the value")
     parser.add_argument("--value", help="Value to set or add")
