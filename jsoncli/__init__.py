@@ -24,7 +24,9 @@ def set_value(obj, key_path, value, data_type=None):
             current = current[key]
         elif key not in current:
             current[key] = {} if keys[keys.index(key) + 1].isdigit() else {}
-        current = current[key]
+            current = current[key]
+        else:
+            current = current[key]
 
     last_key = keys[-1]
     if last_key.isdigit():
