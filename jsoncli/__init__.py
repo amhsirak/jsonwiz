@@ -25,3 +25,6 @@ def main():
     parser.add_argument("keys", nargs="*", help="Keys to target the value")
     parser.add_argument("--value", help="Value to set or add")
     args = parser.parse_args()
+            
+if __name__ == "__main__":
+    main()
