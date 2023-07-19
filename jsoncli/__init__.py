@@ -44,6 +44,34 @@ def set_value(data, keys, value):
         return False
     return True
 
+def add_value(data, keys, value):
+    for key in keys[:-1]:
+        if isinstance(data, dict):
+            data = data.setdefault(key, {})
+        elif isinstance(data, list):
+            try:
+                key = int(key)
+            except ValueError:
+                return False
+            if key >= len(data):
+                data.extend([{}] * (key - len(data) + 1))
+            data = data[key]
+        else:
+            return False
+    if keys[-1] not in data:
+        if isinstance(data, dict):
+            data[keys[-1]] = value
+        elif isinstance(data, list):
+            try:
+                keys[-1] = int(keys[-1])
+                data[keys[-1]] = value
+            except ValueError:
+                return False
+        else:
+            return False
+        return True
+    return False
+
 def main():
     parser = argparse.ArgumentParser(description="⚡ Manipulate JSON files through CLI ⚡")
     parser.add_argument("command", choices=["get", "set"], help="Command to perform")
