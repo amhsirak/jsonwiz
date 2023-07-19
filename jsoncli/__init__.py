@@ -65,6 +65,16 @@ def main():
             print(value)
         else:
             print("Value not found")
+    elif args.command == "set":
+        if args.value is None:
+            print("Please provide a value to set")
+        else:
+            if set_value(data, args.keys, args.value):
+                with open(args.file, "w") as json_file:
+                    json.dump(data, json_file, indent=4)
+                print("Value set successfully")
+            else:
+                print("Error setting value")
             
 if __name__ == "__main__":
     main()
