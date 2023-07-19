@@ -67,5 +67,12 @@ def test_set_value_with_data_type():
     set_value(data_copy, "person.salary", "2500.50", data_type="float")
     assert data_copy["person"]["salary"] == 2500.50
 
+
+def test_validate_json():
+    valid_json_str = '{"name": "Alice", "age": 30}' 
+    assert validate_json(valid_json_str) is True
+    invalid_json_str = '{"name": "Alice", "age": 30,}' # Trailing comma
+    assert validate_json(invalid_json_str) is False
+
 if __name__ == "__main__":
     pytest.main()
