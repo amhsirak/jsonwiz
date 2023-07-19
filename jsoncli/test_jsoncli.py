@@ -67,6 +67,21 @@ def test_set_value_with_data_type():
     set_value(data_copy, "person.salary", "2500.50", data_type="float")
     assert data_copy["person"]["salary"] == 2500.50
 
+def test_delete_value():
+    data_copy = copy.deepcopy(data)
+    # Test cases for deleting existing values
+    delete_value(data_copy, "person.name")
+    assert "name" not in data_copy["person"]
+
+    delete_value(data_copy, "person.address.zipcode")
+    assert "zipcode" not in data_copy["person"]["address"]
+
+    delete_value(data_copy, "items.0.name")
+    assert "name" not in data_copy["items"][0]
+
+    # Test case for deleting non-existing value
+    with pytest.raises(ValueError):
+        delete_value(data_copy, "person.salary")
 
 def test_validate_json():
     valid_json_str = '{"name": "Alice", "age": 30}' 
