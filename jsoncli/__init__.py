@@ -77,8 +77,8 @@ def convert_to_data_type(value, data_type):
         return value
 
 def main():
-    parser = argparse.ArgumentParser(description="Command-line utility for manipulating JSON files.")
-    parser.add_argument("command", choices=["get", "set", "delete", "validate"], help="Specify the command")
+    parser = argparse.ArgumentParser(description="⚡ JSONCLI - A command line interface for manipulating JSON files ⚡")
+    parser.add_argument("command", choices=["get", "set", "delete", "validate"], help="Specify the command to run")
     parser.add_argument("file", help="Path to the JSON file")
     parser.add_argument("key_path", nargs="?", help="Dot or slash separated key path for get, set, and add commands")
     parser.add_argument("value", nargs="?", help="Value for set and add commands")
