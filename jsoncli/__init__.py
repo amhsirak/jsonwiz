@@ -103,6 +103,16 @@ def main():
                 print("Value set successfully")
             else:
                 print("Error setting value")
+    elif args.command == "add":
+        if args.value is None:
+            print("Please provide a value to add")
+        else:
+            if add_value(data, args.keys, args.value):
+                with open(args.file, "w") as json_file:
+                    json.dump(data, json_file, indent=4)
+                print("Value added successfully")
+            else:
+                print("Error adding value")
             
 if __name__ == "__main__":
     main()
