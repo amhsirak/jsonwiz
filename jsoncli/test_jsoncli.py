@@ -36,5 +36,36 @@ def test_get_value():
     # Test case for invalid key
     assert get_value(data_copy, "person.salary") is None
 
+def test_set_value():
+    data_copy = copy.deepcopy(data)
+    # Test cases for setting new values
+    set_value(data_copy, "person.name", "Alice")
+    assert data_copy["person"]["name"] == "Alice"
+
+    set_value(data_copy, "person.age", 25)
+    assert data_copy["person"]["age"] == 25
+
+    set_value(data_copy, "person.address.city", "San Francisco")
+    assert data_copy["person"]["address"]["city"] == "San Francisco"
+
+    # Test case for updating existing value
+    set_value(data_copy, "items.0.name", "itemX")
+    assert data_copy["items"][0]["name"] == "itemX"
+
+def test_set_value_with_data_type():
+    data_copy = copy.deepcopy(data)
+    # Test cases for setting new values with data type
+    set_value(data_copy, "person.age", "25", data_type="integer")
+    assert data_copy["person"]["age"] == 25
+
+    set_value(data_copy, "person.gender", "M", data_type="string")
+    assert data_copy["person"]["gender"] == "M"
+
+    set_value(data_copy, "person.is_employed", "True", data_type="boolean")
+    assert data_copy["person"]["is_employed"] is True
+
+    set_value(data_copy, "person.salary", "2500.50", data_type="float")
+    assert data_copy["person"]["salary"] == 2500.50
+
 if __name__ == "__main__":
     pytest.main()
