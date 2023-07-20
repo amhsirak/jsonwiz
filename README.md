@@ -19,6 +19,7 @@
 - [Arguments](#arguments)
 - [Pass JSON values](#pass-json-values)
 - [Traverse Arrays](#arrays)
+- [Not Supported](#not-supported)
 
 ## Overview
 jsoncli is a command-line tool for working with JSON files. You can retrieve, modify, add or delete any value in the JSON file, then save the changes back to disk. To access a specific property deep in the tree, you can navigate nested objects and arrays using the dot (.) or slash (/) syntax.
@@ -170,5 +171,19 @@ You can traverse arrays just like any other object, simply by specifying the arr
 ```
 jsoncli get example.json person.items.0.name
 ```
+
+## Not Supported
+List input is *currently* not supported. If a list value is passed, it is written as a string. It is recommended to avoid passing lists.
+
+```
+jsoncli set example.json my_list '[1,2,3]'
+```
+Will be stored as 
+```json
+{
+  "my_list": "[1,2,3]",
+}
+```
+
 
 Bye bye.
