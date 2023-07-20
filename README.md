@@ -27,6 +27,7 @@ Once jsoncli is installed, you can use the following command to interact with th
 ```
 jsoncli COMMAND [FILE] [PATH] [VALUE] [--ARGS]
 ```
+
 <table>
   <tr>
     <td>COMMAND</td>
@@ -48,3 +49,17 @@ jsoncli COMMAND [FILE] [PATH] [VALUE] [--ARGS]
     <td>ARGS</td>
      <td>Optional arguments to pass. Check below</td>
   </tr>
+</table>
+
+## Example
+
+```
+jsoncli set example.json person.name "John" --type string
+```
+This would write a `name` key into the `person` object, and set the value to `John` as a string
+
+```json
+  "person": {
+    "name": "John"
+  }
+```
