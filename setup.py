@@ -9,11 +9,11 @@ VERSION = '0.0.1'
 DESCRIPTION = 'A command line tool to manipulate JSON files.'
 
 setup(
-    name="jsoncli",
+    name="jsonwiz",
     version=VERSION,
     author="Karishma Shukla",
     author_email="karishmashuklaa@gmail.com",
-    url="https://github.com/karishmashuklaa/jsoncli",
+    url="https://github.com/karishmashuklaa/jsonwiz",
     description=DESCRIPTION,
     long_description_content_type="text/markdown",
     long_description= readme(),
@@ -29,11 +29,13 @@ setup(
         "jsoncli tool",
         "jsoncli command line tool",
         "jsoncli command line interface",
+        "jsonwiz",
+        "jsonwiz tool",
         "jsoncli command line",
     ],
     entry_points={
         'console_scripts': [
-            'jsoncli = jsoncli.__init__:main'
+            'jsonwiz = jsonwiz.__init__:main'
         ]
     },
     license="MIT",

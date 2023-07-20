@@ -1,6 +1,6 @@
 import pytest
 import copy
-import jsoncli as jc
+import jsonwiz as jc
 
 data = {
     "person": {

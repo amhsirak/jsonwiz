@@ -104,7 +104,7 @@ def convert_to_data_type(value, data_type):
 
 def main():
     parser = argparse.ArgumentParser(
-        description="⚡ JSONCLI - A command line interface for manipulating JSON files ⚡")
+        description="⚡ JsonWiz - A command line interface for manipulating JSON files ⚡")
     parser.add_argument("command", choices=[
                         "get", "set", "delete", "validate"], help="Specify the command to run")
     parser.add_argument("file", help="Path to the JSON file")
@@ -139,9 +139,9 @@ def main():
         with open(args.file, "r") as f:
             json_str = f.read()
         if validate_json(json_str):
-            print("Valid JSON.")
+            print("Valid JSON")
         else:
-            print("Invalid JSON.")
+            print("Invalid JSON")
 
 
 if __name__ == "__main__":
