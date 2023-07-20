@@ -120,3 +120,17 @@ Output:
   }
 }
 ```
+## Writing Complex JSON
+It is possible to add entire JSON fragments to your file by replacing an existing object/creating a new object. Recommended to use `--type` object to correctly parse your value as JSON when applying to the document. Make sure to properly escape your quotes, when attempting this.
+
+```
+jsoncli set example.json person.address '{\"city\":\"Mumbai\"}' --type object
+```
+Output:
+```json
+  "person": {
+    "address": {
+      "city": "Mumbai"
+    }
+  }
+```
