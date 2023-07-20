@@ -120,7 +120,7 @@ Output:
   }
 }
 ```
-## Writing Complex JSON
+## Pass JSON values
 It is possible to add entire JSON fragments to your file by replacing an existing object/creating a new object. Recommended to use `--type` object to correctly parse your value as JSON when applying to the document. Make sure to properly escape your quotes, when attempting this.
 
 ```
@@ -133,4 +133,33 @@ Output:
       "city": "Mumbai"
     }
   }
+```
+
+## Arrays
+You can traverse arrays just like any other object, simply by specifying the array index as the key.
+
+<details>
+  <summary>Sample JSON</summary>
+  
+  ```json
+  {
+  "person": {
+    "address": {
+      "city": "Mumbai"
+    },
+    "items": [
+      {
+        "name": "item1"
+      },
+      {
+        "name": "item2"
+      }
+    ]
+  }
+}
+  ```
+</details>
+
+```
+jsoncli get example.json person.items.0.name
 ```
