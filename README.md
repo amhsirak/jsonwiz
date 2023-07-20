@@ -63,3 +63,37 @@ This would write a `name` key into the `person` object, and set the value to `Jo
     "name": "John"
   }
 ```
+
+## Commands
+Supported commands - get, set, delete, validate
+
+### get
+The `get` command fetches an existing value, and outputs it to the console.
+
+```
+jsoncli get example.json person.name
+```
+
+### set
+The `set` command will create or replace a key. If the key exists, it will override the exisiting value. It also automatically creates any parent objects if necessary.
+
+```
+jsoncli set example.json person.age 32 --type string 
+```
+
+The data type of the new value is guessed by the format. To assert required data type, pass the `--type` argument. Read about it here.
+
+### delete
+The `delete` command will delete an existing key, and fail if the key or any parent objects don't exist.
+
+```
+jsoncli delete example.json person.age
+```
+
+### validate
+The `validate` command simply checks if the input JSON is valid or not.
+
+```
+jsoncli validate example.json
+```
+
