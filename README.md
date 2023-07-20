@@ -97,3 +97,23 @@ The `validate` command simply checks if the input JSON is valid or not.
 jsoncli validate example.json
 ```
 
+## Arguments
+
+### `--type`
+The `--type` is an optional argument to specify the data type of the new value. To be used with the `set` command.
+
+Supported types are - `string`, `integer`, `float`, `boolean`, `null` and `object`
+
+Example: Pass a `boolean` value
+```
+jsoncli set example.json person.subscribed true --type boolean
+```
+Output:
+```json
+{
+  "person": {
+    "name": "John",
+    "subscribed": true
+  }
+}
+```
