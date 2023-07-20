@@ -12,6 +12,14 @@
   
 </div>
 
+- [Overview](#overview)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Commands](#commands)
+- [Arguments](#arguments)
+- [Pass JSON values](#pass-json-values)
+- [Traverse Arrays](#arrays)
+
 ## Overview
 jsoncli is a command-line tool for working with JSON files. You can retrieve, modify, add or delete any value in the JSON file, then save the changes back to disk. To access a specific property deep in the tree, you can navigate nested objects and arrays using the dot (.) or slash (/) syntax.
 
@@ -68,7 +76,6 @@ This would write a `name` key into the `person` object, and set the value to `Jo
 ```
 
 ## Commands
-Supported commands - get, set, delete, validate
 
 ### get
 The `get` command fetches an existing value, and outputs it to the console.
@@ -84,7 +91,7 @@ The `set` command will create or replace a key. If the key exists, it will overr
 jsoncli set example.json person.age 32 --type string 
 ```
 
-The data type of the new value is guessed by the format. To assert required data type, pass the `--type` argument. Read about it here.
+The data type of the new value is guessed by the format. To assert required data type, pass the `--type` argument. [Read about it here.](#arguments)
 
 ### delete
 The `delete` command will delete an existing key, and fail if the key or any parent objects don't exist.
@@ -163,3 +170,5 @@ You can traverse arrays just like any other object, simply by specifying the arr
 ```
 jsoncli get example.json person.items.0.name
 ```
+
+Bye bye.
