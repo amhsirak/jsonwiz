@@ -92,7 +92,11 @@ def convert_to_data_type(value, data_type):
     elif data_type == "object":
         return json.loads(value)
     elif data_type == "list":
-        return json.loads(value)
+        try:
+            return json.loads(value)
+        except json.JSONDecodeError:
+            # If the value is not a valid JSON list, convert it to a list containing the value as a string
+            return [value]
     else:
         return value
 
