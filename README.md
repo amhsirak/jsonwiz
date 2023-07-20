@@ -18,9 +18,8 @@
 - [Commands](#commands)
 - [Arguments](#arguments)
 - [Pass JSON values](#pass-json-values)
-- [Traverse Arrays](#arrays)
-- [Not Supported](#not-supported)
-
+- [Pass Arrays](#pass-arrays)
+  
 ## Overview
 jsoncli is a command-line tool for working with JSON files. You can retrieve, modify, add or delete any value in the JSON file, then save the changes back to disk. To access a specific property deep in the tree, you can navigate nested objects and arrays using the dot (.) or slash (/) syntax.
 
@@ -129,7 +128,7 @@ Output:
 }
 ```
 ## Pass JSON values
-It is possible to add entire JSON fragments to your file by replacing an existing object/creating a new object. Recommended to use `--type` object to correctly parse your value as JSON when applying to the document. Make sure to properly escape your quotes, when attempting this.
+It is possible to add entire JSON fragments to your file by replacing an existing object/creating a new object. Recommended to use `--type` object to correctly parse your value as JSON when applying to the document. *Make sure to properly escape your quotes when attempting this.*
 
 ```
 jsoncli set example.json person.address '{\"city\":\"Mumbai\"}' --type object
@@ -143,8 +142,8 @@ Output:
   }
 ```
 
-## Arrays
-You can traverse arrays just like any other object, simply by specifying the array index as the key.
+## Pass Arrays
+You can traverse arrays just like any other object, simply by specifying the array index as the key. Make sure to use `--type` object for array insertions to work properly. *Make sure to properly escape your quotes when attempting this.*
 
 <details>
   <summary>Sample JSON</summary>
@@ -168,22 +167,25 @@ You can traverse arrays just like any other object, simply by specifying the arr
   ```
 </details>
 
+### get
 ```
 jsoncli get example.json person.items.0.name
 ```
 
-## Not Supported
-List input is *currently* not supported. If a list value is passed, it is written as a string. It is recommended to avoid passing lists.
+### set
 
+1. Create empty array
+   
 ```
-jsoncli set example.json my_list '[1,2,3]'
-```
-Will be stored as 
-```json
-{
-  "my_list": "[1,2,3]",
-}
+jsoncli get example.json person.jobs [] --type object
 ```
 
+2. Create arrays with no strings
+```
+jsoncli get example.json person.jobs [1,2,3] --type object
+```
 
-Bye bye.
+3. Create arrays with string values
+```
+jsoncli my_list '[\"value1\", \"value2\", \"value3\"]' --type object
+```
