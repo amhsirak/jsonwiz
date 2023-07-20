@@ -36,7 +36,7 @@ def set_value(obj, key_path, value, data_type=None):
     if last_key.isdigit():
         last_key = int(last_key)
 
-    if isinstance(current, list):
+    if isinstance(current, list) and data_type=="list":
         if last_key >= len(current):
             current.extend([{}] * (last_key - len(current) + 1))
         current[last_key] = convert_to_data_type(value, data_type)
@@ -91,6 +91,8 @@ def convert_to_data_type(value, data_type):
         return None
     elif data_type == "object":
         return json.loads(value)
+    elif data_type == "list":
+        return json.loads(value)
     else:
         return value
 
@@ -106,7 +108,7 @@ def main():
     parser.add_argument("value", nargs="?",
                         help="Value for set and add commands")
     parser.add_argument("--type", choices=["string", "integer", "float", "boolean",
-                        "null", "object"], help="Specify the data type of the new value")
+                        "null", "object", "list"], help="Specify the data type of the new value")
     args = parser.parse_args()
 
     with open(args.file, "r") as f:
