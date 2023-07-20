@@ -86,7 +86,14 @@ def convert_to_data_type(value, data_type):
     elif data_type == "float":
         return float(value)
     elif data_type == "boolean":
-        return bool(value)
+            if isinstance(value, bool):
+                return value
+            elif value.lower() == "true":
+                return True
+            elif value.lower() == "false":
+                return False
+            else:
+                raise ValueError(f"Invalid boolean value: {value}")
     elif data_type == "null":
         return None
     elif data_type == "object":
