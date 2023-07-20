@@ -12,6 +12,9 @@
   
 </div>
 
+## Overview
+jsoncli is a command-line tool for working with JSON files. You can retrieve, modify, add or delete any value in the JSON file, then save the changes back to disk. To access a specific property deep in the tree, you can navigate nested objects and arrays using the dot (.) or slash (/) syntax.
+
 ## Installation
 
 jsoncli can be installed via pip through PyPi
